@@ -3,4 +3,4 @@ Kun-legado / ĉin-skribigo por Esperanto. 世界语训读/汉字化。 Kun'yomi 
 
 Listo de facilaj vortoj laŭ `UEA.facila`: https://uea.facila.org/vortlisto/#listo
 
-Dankon al https://zhuanlan.zhihu.com/p/349645051
+Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas malĝustaj)

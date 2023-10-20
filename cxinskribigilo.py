@@ -29,6 +29,13 @@ correlatives = [
 	"ĉia", "ĉial", "ĉiam", "ĉie", "ĉiel", "ĉies", "ĉio", "ĉiom", "ĉiu",
 	"nenia", "nenial", "neniam", "nenie", "neniel", "nenies", "nenio", "neniom", "neniu",
 ]
+correlative_dict = {
+    "kia": "何a", "kial": "何al", "kiam": "何am", "kie": "何e", "kiel": "何el", "kies": "何es", "kio": "何o", "kiom": "何om", "kiu": "何u",
+	"tia": "彼a", "tial": "彼al", "tiam": "彼am", "tie": "彼e", "tiel": "彼el", "ties": "彼es", "tio": "彼o", "tiom": "彼om", "tiu": "彼u",
+	"ia": "某a", "ial": "某al", "iam": "某am", "ie": "某e", "iel": "某el", "ies": "某es", "io": "某o", "iom": "某om", "iu": "某u",
+	"ĉia": "每a", "ĉial": "每al", "ĉiam": "每am", "ĉie": "每e", "ĉiel": "每el", "ĉies": "每es", "ĉio": "每o", "ĉiom": "每om", "ĉiu": "每u",
+	"nenia": "無a", "nenial": "無al", "neniam": "無am", "nenie": "無e", "neniel": "無el", "nenies": "無es", "nenio": "無o", "neniom": "無om", "neniu": "無u",
+}
 
 
 # 你的 CSV 文件列表
@@ -81,13 +88,16 @@ def split_suffix(word):
         word = word[:-3]
         non_verb = True
 
-    # correlatives: -en → 
+    # correlatives: -en → -
     if word in ["kien", "tien", "ien", "nenien", "ĉien"]:
         return word[:-2], 'en'
 
     # correlative roots
-    if word in roots:
-        return word, suffix
+    if word in correlatives or (suffix and word + suffix[0] in correlatives):
+        if suffix:
+            word += suffix[0]
+            suffix = suffix[1:]
+        return correlative_dict[word], suffix
     
     # nur se ne stemmita.
     # 否则会错： ideoj, hebreoj
@@ -208,10 +218,10 @@ def word_eo_to_han(eo_word, is_before_hyphen=False):
 
 
 def sentence_eo_to_han(eo_sentence):
-    eo_word_list = re.findall(r"[\w]+|[.,!?;\-“„”\"«»\~\[\]\{\}]| ", eo_sentence)
+    eo_word_list = re.findall(r"[\w]+|[.,!?;\-“„”\"«»\~\[\]\{\}\n]| ", eo_sentence)
     return ''.join([word_eo_to_han(word, i + 1 >= len(eo_word_list) or eo_word_list[i + 1] == '-') for (i, word) in enumerate(eo_word_list)])
 
-if "__name__" == "__main__":
+if __name__ == "__main__":
     # word_eo_to_han 使用示例
     eo_word = "naskiĝtago"
     han_word = word_eo_to_han(eo_word)
@@ -221,6 +231,7 @@ if "__name__" == "__main__":
     print(word_eo_to_han("interno"), word_eo_to_han("internajn"))
     print(word_eo_to_han("lernantoj"), word_eo_to_han("lerninto"))
     print(word_eo_to_han("ideo"), word_eo_to_han("ideoj"), word_eo_to_han("hebreoj"))
+    print(word_eo_to_han("Ĉiuj"))
     # 输出：
     """
     誕成日o
@@ -229,43 +240,62 @@ if "__name__" == "__main__":
     # sentence_eo_to_han 使用示例
     # TODO: 语尾如 -on -an -i 被错误汉字化
     print("************fraza ekzemplo**********")
-    print(sentence_eo_to_han("""
-    Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo. 
-    La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto 
-    Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. 
-    La unua versio, la rusa, ricevis la cenzuran permeson disvastiĝi en la 26-a de julio; 
-    ĉi tiun daton oni konsideras la naskiĝtago de Esperanto. 
-    Li celis kaj sukcesis krei facile lerneblan neŭtralan lingvon, taŭgan por uzo en la internacia komunikado; 
-    la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
+    print(sentence_eo_to_han(
+        """
+Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo. 
+La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto 
+Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. 
+La unua versio, la rusa, ricevis la cenzuran permeson disvastiĝi en la 26-a de julio; 
+ĉi tiun daton oni konsideras la naskiĝtago de Esperanto. 
+Li celis kaj sukcesis krei facile lerneblan neŭtralan lingvon, taŭgan por uzo en la internacia komunikado; 
+la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
     """))
     # 输出：
     """
-    冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. La 名o de la 語o 來as de la 隱名o “D-ro 冀anto„ 
-    下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, la rusa, 
-    獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
-    他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
+冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. La 名o de la 語o 來as de la 隱名o “D-ro 冀anto„ 
+下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, 
+la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
+他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
     """
 
     print("************又一个 fraza ekzemplo**********")
-    print(sentence_eo_to_han("""
-    Mi naskiĝis en Bjelostoko, gubernio de Grodno. Tiu ĉi loko de mia naskiĝo kaj de miaj infanaj jaroj donis la direkton 
-    al ĉiuj miaj estontaj celadoj. En Bjelostoko la loĝantaro konsistas el kvar diversaj elementoj: rusoj, poloj, 
-    germanoj kaj hebreoj; ĉiuj el tiuj ĉi elementoj parolas apartan lingvon kaj neamike rilatas la aliajn elementojn. 
-    En tia urbo pli ol ie la impresema naturo sentas la multepezan malfeliĉon de diverslingveco kaj konvinkiĝas ĉe ĉiu paŝo, 
-    ke la diverseco de lingvoj estas la sola, aŭ almenaŭ la ĉefa, kaŭzo, kiu disigas la homan familion kaj dividas ĝin en 
-    malamikaj partoj. Oni edukadis min kiel idealiston; oni min instruis, ke ĉiuj homoj estas fratoj, kaj dume sur la strato 
-    kaj sur la korto, ĉio ĉe ĉiu paŝo igis min senti, ke homoj ne ekzistas: ekzistas sole rusoj, poloj, germanoj, hebreoj k.t.p. 
-    Tio ĉi ĉiam forte turmentis mian infanan animon, kvankam multaj eble ridetos pri tiu ĉi „doloro pro la mondo“ ĉe la infano. 
-    Ĉar al mi tiam ŝajnis, ke la „grandaĝaj“ posedas ian ĉiopovan forton, mi ripetadis al mi, ke kiam mi estos grandaĝa, 
-    mi nepre forigos tiun ĉi malbonon.
+    print(sentence_eo_to_han(
+        """
+Mi naskiĝis en Bjelostoko, gubernio de Grodno. Tiu ĉi loko de mia naskiĝo kaj de miaj infanaj jaroj donis la direkton 
+al ĉiuj miaj estontaj celadoj. En Bjelostoko la loĝantaro konsistas el kvar diversaj elementoj: rusoj, poloj, 
+germanoj kaj hebreoj; ĉiuj el tiuj ĉi elementoj parolas apartan lingvon kaj neamike rilatas la aliajn elementojn. 
+En tia urbo pli ol ie la impresema naturo sentas la multepezan malfeliĉon de diverslingveco kaj konvinkiĝas ĉe ĉiu paŝo, 
+ke la diverseco de lingvoj estas la sola, aŭ almenaŭ la ĉefa, kaŭzo, kiu disigas la homan familion kaj dividas ĝin en 
+malamikaj partoj. Oni edukadis min kiel idealiston; oni min instruis, ke ĉiuj homoj estas fratoj, kaj dume sur la strato 
+kaj sur la korto, ĉio ĉe ĉiu paŝo igis min senti, ke homoj ne ekzistas: ekzistas sole rusoj, poloj, germanoj, hebreoj k.t.p. 
+Tio ĉi ĉiam forte turmentis mian infanan animon, kvankam multaj eble ridetos pri tiu ĉi „doloro pro la mondo“ ĉe la infano. 
+Ĉar al mi tiam ŝajnis, ke la „grandaĝaj“ posedas ian ĉiopovan forton, mi ripetadis al mi, ke kiam mi estos grandaĝa, 
+mi nepre forigos tiun ĉi malbonon.
     """))
     # 输出：
     """
-    吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on 往 ĉiuj 吾aj 是ontaj 的久oj. 
-    入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebreoj; ĉiuj 出 彼uj 此 elementoj 講as 別an 語on 
-    與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 在 ĉiu 步o, 
-    曰 la 繽性o de 語oj 是as la 獨a, 或 almenaŭ la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入 否友aj 部oj. Oni 教久is 吾n 何出 理想者on; 
-    oni 吾n 授is, 曰 ĉiuj 人oj 是as 兄oj, 與 當e sur la strato 與 sur la 院o, ĉio 在 ĉiu 步o 化is 吾n 感i, 曰 人oj 不 存as 存as 獨e rusoj, 
-    poloj, germanoj, hebreoj k.t.p. 彼o 此 ĉi愛 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
-    因 往 吾 彼愛 似is, 曰 la „大齡aj“ 占as  某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何愛 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
+吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on 往 每uj 吾aj 是ontaj 的久oj. 
+入 Bjelostoko la 住ant集o 組 成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebreoj; 每uj 出 彼uj 此 elementoj 講as 別an 語on 
+與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 在 每u 步o, 
+曰 la 繽性o de 語oj 是as la 獨a, 或 almenaŭ la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入 否友aj 部oj. Oni 教久is 吾n 何el 理想者on; 
+oni 吾n 授is, 曰 每uj 人oj 是as 兄oj, 與 當e sur la strato 與 sur la 院o, 每o 在 每u 步o 化is 吾n 感i, 曰 人oj 不 存as 存as 獨e rusoj, 
+poloj, germanoj, hebreoj k.t.p. 彼o 此 每am 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
+因 往 吾 彼am 似is, 曰 la „大齡aj“ 占as 某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何am 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
+    """
+
+    print("************又一个 fraza ekzemplo**********")
+    print(sentence_eo_to_han(
+        """
+En multaj lokoj de Ĉinio estas temploj de drako-reĝo. Dum trosekeco oni preĝis en la temploj, ke la drako-reĝo donu pluvon al la homa mondo. 
+Tiam drako estis simbolo de la supernatura estaĵo. Kaj pli poste, ĝi fariĝis prapatro de la plej altaj regantoj kaj simbolis la absolutan 
+aŭtoritaton de feŭda imperiestro. La imperiestro pretendis, ke li estas filo de la drako. Ĉiuj liaj vivbezonaĵoj portis la nomon drako kaj 
+estis ornamitaj per diversaj drakofiguroj. Nun ĉie en Ĉinio videblas drako-ornamentaĵoj, kaj cirkulas legendoj pri drakoj.
+        """))
+
+    # 输出：
+    """
+入 多aj 位oj de Ĉi咱o 是as temploj de drako-王o. 當 太乾性o oni 祈is 入 la temploj, 曰 la drako-王o 予u 雨on 往 la 人a 世o. 彼am drako 
+是is simbolo de la 超自然a 是物o. 與 更 後e, 它 做成is 先親o de la 最 高aj 治antoj 與 simbolis la absolutan aŭtoritaton de feŭda imperiestro. 
+La imperiestro 宣稱is, 曰 他 是as 子o de la drako. 每uj 他aj 
+生需物oj 攜is la 名on drako 與 是is ornamitaj 凭 繽aj drakofiguroj. Nun 每e 入 Ĉi咱o 見能as drako-ornamentaĵoj, 與 cirkulas 讀應oj 關 drakoj.
     """

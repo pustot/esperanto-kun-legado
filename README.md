@@ -18,7 +18,7 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
 >>> # frazojn traduki
 >>> # https://www.ohchr.org/en/human-rights/universal-declaration/translations/esperanto
 >>> sentence_eo_to_han("Ĉiuj homoj estas denaske liberaj kaj egalaj laŭ digno kaj rajtoj. Ili posedas racion kaj konsciencon, kaj devus konduti unu al alia en spirito de frateco.")
-'Ĉiuj 人oj 是as de誕e 閒aj 與 等aj 沿 digno 與 權oj. 怹 占as racion 與 識科on, 與 須us konduti 一 往 另a 入 魂o de 兄性o.'
+'每uj 人oj 是as de誕e 逸aj 與 等aj 沿 digno 與 權oj. 怹 占as racion 與 konsciencon, 與 須us konduti 一 往 另a 入 魂o de 兄性o.'
 ```
 
 # 一些小原則
@@ -68,7 +68,7 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
 - kaj與 aŭ或 ne不/非 mal-否
     - 想要與計算機的 與、或、非 對應，不過 ne 還是寫作「不」順眼。。。
     - mal- 表示的是反義，自然語言很難有這個詞根。我用了不太口語的「否」防止malbona讀起來像「不好」
-- supr- super sur, sub
+- supr- super sur ĉe, sub
 - afer-事 okaz-起 ek-開 kaz-案
     - okaz-起 想找個發生之類的字，沒找到，遂參考 起こる
     - ek-開 本來用的起，現在用開吧，其實也合適，「開搞」

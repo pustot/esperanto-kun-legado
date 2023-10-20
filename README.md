@@ -50,7 +50,7 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
     - person-個 個人，個體
     - -an- 是國民，所以用「民」好點，但是 popol- 佔之；思及「人士」，用了「士」；參見 兵 soldat-
 - lok-位 ter-地 -ej-所 -uj-鄉 rang-地位
-- hejm-厝 famili-家 naci-族 land-國 ŝtat-州
+- hejm-厝 famili-家 naci-族 land-國 ŝtat-邦
     - hejm-厝, dom-屋
     - famili-家, ĝarden-庭
 - kaj與 aŭ或 ne不/非 mal-否

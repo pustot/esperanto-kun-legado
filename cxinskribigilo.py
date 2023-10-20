@@ -134,7 +134,7 @@ def split_suffix(word):
     if word[-3:] in ['int', 'ant', 'ont']:
         suffix = word[-3:] + suffix
         word = word[:-3]
-    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat', 'frat', 'rilat']:
+    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat', 'frat', 'rilat', 'spirit']:
         # 特殊情况于 dat- 等词
         suffix = word[-2:] + suffix
         word = word[:-2]
@@ -246,26 +246,26 @@ if "__name__" == "__main__":
     他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
     """
 
-print("************又一个 fraza ekzemplo**********")
-print(sentence_eo_to_han("""
-Mi naskiĝis en Bjelostoko, gubernio de Grodno. Tiu ĉi loko de mia naskiĝo kaj de miaj infanaj jaroj donis la direkton 
-al ĉiuj miaj estontaj celadoj. En Bjelostoko la loĝantaro konsistas el kvar diversaj elementoj: rusoj, poloj, 
-germanoj kaj hebreoj; ĉiuj el tiuj ĉi elementoj parolas apartan lingvon kaj neamike rilatas la aliajn elementojn. 
-En tia urbo pli ol ie la impresema naturo sentas la multepezan malfeliĉon de diverslingveco kaj konvinkiĝas ĉe ĉiu paŝo, 
-ke la diverseco de lingvoj estas la sola, aŭ almenaŭ la ĉefa, kaŭzo, kiu disigas la homan familion kaj dividas ĝin en 
-malamikaj partoj. Oni edukadis min kiel idealiston; oni min instruis, ke ĉiuj homoj estas fratoj, kaj dume sur la strato 
-kaj sur la korto, ĉio ĉe ĉiu paŝo igis min senti, ke homoj ne ekzistas: ekzistas sole rusoj, poloj, germanoj, hebreoj k.t.p. 
-Tio ĉi ĉiam forte turmentis mian infanan animon, kvankam multaj eble ridetos pri tiu ĉi „doloro pro la mondo“ ĉe la infano. 
-Ĉar al mi tiam ŝajnis, ke la „grandaĝaj“ posedas ian ĉiopovan forton, mi ripetadis al mi, ke kiam mi estos grandaĝa, 
-mi nepre forigos tiun ĉi malbonon.
-"""))
-# 输出：
-"""
-吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on 往 ĉiuj 吾aj 是ontaj 的久oj. 
-入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebreoj; ĉiuj 出 彼uj 此 elementoj 講as 別an 語on 
-與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 在 ĉiu 步o, 
-曰 la 繽性o de 語oj 是as la 獨a, 或 almenaŭ la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入 否友aj 部oj. Oni 教久is 吾n 何出 理想者on; 
-oni 吾n 授is, 曰 ĉiuj 人oj 是as 兄oj, 與 當e sur la strato 與 sur la 院o, ĉio 在 ĉiu 步o 化is 吾n 感i, 曰 人oj 不 存as 存as 獨e rusoj, 
-poloj, germanoj, hebreoj k.t.p. 彼o 此 ĉi愛 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
-因 往 吾 彼愛 似is, 曰 la „大齡aj“ 占as  某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何愛 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
-"""
+    print("************又一个 fraza ekzemplo**********")
+    print(sentence_eo_to_han("""
+    Mi naskiĝis en Bjelostoko, gubernio de Grodno. Tiu ĉi loko de mia naskiĝo kaj de miaj infanaj jaroj donis la direkton 
+    al ĉiuj miaj estontaj celadoj. En Bjelostoko la loĝantaro konsistas el kvar diversaj elementoj: rusoj, poloj, 
+    germanoj kaj hebreoj; ĉiuj el tiuj ĉi elementoj parolas apartan lingvon kaj neamike rilatas la aliajn elementojn. 
+    En tia urbo pli ol ie la impresema naturo sentas la multepezan malfeliĉon de diverslingveco kaj konvinkiĝas ĉe ĉiu paŝo, 
+    ke la diverseco de lingvoj estas la sola, aŭ almenaŭ la ĉefa, kaŭzo, kiu disigas la homan familion kaj dividas ĝin en 
+    malamikaj partoj. Oni edukadis min kiel idealiston; oni min instruis, ke ĉiuj homoj estas fratoj, kaj dume sur la strato 
+    kaj sur la korto, ĉio ĉe ĉiu paŝo igis min senti, ke homoj ne ekzistas: ekzistas sole rusoj, poloj, germanoj, hebreoj k.t.p. 
+    Tio ĉi ĉiam forte turmentis mian infanan animon, kvankam multaj eble ridetos pri tiu ĉi „doloro pro la mondo“ ĉe la infano. 
+    Ĉar al mi tiam ŝajnis, ke la „grandaĝaj“ posedas ian ĉiopovan forton, mi ripetadis al mi, ke kiam mi estos grandaĝa, 
+    mi nepre forigos tiun ĉi malbonon.
+    """))
+    # 输出：
+    """
+    吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on 往 ĉiuj 吾aj 是ontaj 的久oj. 
+    入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebreoj; ĉiuj 出 彼uj 此 elementoj 講as 別an 語on 
+    與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 在 ĉiu 步o, 
+    曰 la 繽性o de 語oj 是as la 獨a, 或 almenaŭ la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入 否友aj 部oj. Oni 教久is 吾n 何出 理想者on; 
+    oni 吾n 授is, 曰 ĉiuj 人oj 是as 兄oj, 與 當e sur la strato 與 sur la 院o, ĉio 在 ĉiu 步o 化is 吾n 感i, 曰 人oj 不 存as 存as 獨e rusoj, 
+    poloj, germanoj, hebreoj k.t.p. 彼o 此 ĉi愛 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
+    因 往 吾 彼愛 似is, 曰 la „大齡aj“ 占as  某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何愛 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
+    """

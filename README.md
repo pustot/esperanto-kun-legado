@@ -1,4 +1,5 @@
 # esperanto-kun-legado
+
 Kun-legado / ĉin-skribigo por Esperanto. 世界语训读/汉字化。 Kun'yomi / Chinese script writing for Esperanto.
 
 Listo de facilaj vortoj laŭ `UEA.facila`: https://uea.facila.org/vortlisto/#listo
@@ -9,14 +10,24 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
 
 參見學習筆記 https://github.com/twaqngu/TwaqNoto/blob/master/400-Lingvo/400-eo-Esperanto.md
 
-一些小原則：
+# Python Usage
+
+```py
+>>>  from cxinskribigilo import sentence_eo_to_han
+
+>>> # frazojn traduki
+>>> sentence_eo_to_han("Ni ĉiuj naskiĝis liberaj kaj egalaj laŭ digno kaj rajtoj. Ni ĉiuj havas niajn proprajn pensojn kaj ideojn. Ni ĉiuj devas agi unuj kun aliaj laŭ spirito de frateco.")
+'咱 ĉiuj 誕成is 閒aj 與 等aj 沿 digno 與 權oj. 咱 ĉiuj 有as 咱ajn 擁ajn 思ojn 與 想ojn. 咱 ĉiuj 須as 行i unuj 共 另aj 沿 魂o de 兄性o.'
+```
+
+# 一些小原則
 
 - 優先漢字化那些意義強的、常用的詞根
 - 儘量不漢字化那些弱語義的（如 -um-）或用途少的（如 ge-）詞綴、語義不單純的獨立詞（如 je）
 - 儘量用單個漢字、通用的繁體字，並儘可能不重複（重複的情況，計劃漸次清理）
 - 現代從某外語借的詞儘量不漢字化，如blogo
 
-一些難題
+# 一些難題
 
 - vid-見, rigard-看; aŭd-聞, aŭskult-聽
     - 都是一個描述狀態（看見、聽見）一個描述動作（看、聽）

@@ -211,39 +211,40 @@ def sentence_eo_to_han(eo_sentence):
     eo_word_list = re.findall(r"[\w]+|[.,!?;\-“„”\"«»\~\[\]\{\}]| ", eo_sentence)
     return ''.join([word_eo_to_han(word, i + 1 >= len(eo_word_list) or eo_word_list[i + 1] == '-') for (i, word) in enumerate(eo_word_list)])
 
-# word_eo_to_han 使用示例
-eo_word = "naskiĝtago"
-han_word = word_eo_to_han(eo_word)
-print("************vorta ekzemplo**********")
-print(han_word)  
-print(word_eo_to_han("internacia"))
-print(word_eo_to_han("interno"), word_eo_to_han("internajn"))
-print(word_eo_to_han("lernantoj"), word_eo_to_han("lerninto"))
-print(word_eo_to_han("ideo"), word_eo_to_han("ideoj"), word_eo_to_han("hebreoj"))
-# 输出：
-"""
-誕成日o
-"""
+if "__name__" == "__main__":
+    # word_eo_to_han 使用示例
+    eo_word = "naskiĝtago"
+    han_word = word_eo_to_han(eo_word)
+    print("************vorta ekzemplo**********")
+    print(han_word)  
+    print(word_eo_to_han("internacia"))
+    print(word_eo_to_han("interno"), word_eo_to_han("internajn"))
+    print(word_eo_to_han("lernantoj"), word_eo_to_han("lerninto"))
+    print(word_eo_to_han("ideo"), word_eo_to_han("ideoj"), word_eo_to_han("hebreoj"))
+    # 输出：
+    """
+    誕成日o
+    """
 
-# sentence_eo_to_han 使用示例
-# TODO: 语尾如 -on -an -i 被错误汉字化
-print("************fraza ekzemplo**********")
-print(sentence_eo_to_han("""
-Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo. 
-La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto 
-Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. 
-La unua versio, la rusa, ricevis la cenzuran permeson disvastiĝi en la 26-a de julio; 
-ĉi tiun daton oni konsideras la naskiĝtago de Esperanto. 
-Li celis kaj sukcesis krei facile lerneblan neŭtralan lingvon, taŭgan por uzo en la internacia komunikado; 
-la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
-"""))
-# 输出：
-"""
-冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. La 名o de la 語o 來as de la 隱名o “D-ro 冀anto„ 
-下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, la rusa, 
-獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
-他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
-"""
+    # sentence_eo_to_han 使用示例
+    # TODO: 语尾如 -on -an -i 被错误汉字化
+    print("************fraza ekzemplo**********")
+    print(sentence_eo_to_han("""
+    Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo. 
+    La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto 
+    Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. 
+    La unua versio, la rusa, ricevis la cenzuran permeson disvastiĝi en la 26-a de julio; 
+    ĉi tiun daton oni konsideras la naskiĝtago de Esperanto. 
+    Li celis kaj sukcesis krei facile lerneblan neŭtralan lingvon, taŭgan por uzo en la internacia komunikado; 
+    la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
+    """))
+    # 输出：
+    """
+    冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. La 名o de la 語o 來as de la 隱名o “D-ro 冀anto„ 
+    下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, la rusa, 
+    獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
+    他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
+    """
 
 print("************又一个 fraza ekzemplo**********")
 print(sentence_eo_to_han("""

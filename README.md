@@ -18,7 +18,7 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
 >>> # frazojn traduki
 >>> # https://www.ohchr.org/en/human-rights/universal-declaration/translations/esperanto
 >>> sentence_eo_to_han("Ĉiuj homoj estas denaske liberaj kaj egalaj laŭ digno kaj rajtoj. Ili posedas racion kaj konsciencon, kaj devus konduti unu al alia en spirito de frateco.")
-'咱 ĉiuj 誕成is 閒aj 與 等aj 沿 digno 與 權oj. 咱 ĉiuj 有as 咱ajn 擁ajn 思ojn 與 想ojn. 咱 ĉiuj 須as 行i unuj 共 另aj 沿 魂o de 兄性o.'
+'Ĉiuj 人oj 是as de誕e 閒aj 與 等aj 沿 digno 與 權oj. 怹 占as racion 與 識科on, 與 須us konduti 一 往 另a 入 魂o de 兄性o.'
 ```
 
 # 一些小原則

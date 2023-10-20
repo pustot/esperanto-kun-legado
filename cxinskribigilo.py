@@ -89,7 +89,9 @@ def split_suffix(word):
     if word in roots:
         return word, suffix
     
-    if word[-1] in ['a', 'o', 'e']:
+    # nur se ne stemmita.
+    # 否则会错： ideoj, hebreoj
+    if not non_verb and word[-1] in ['a', 'o', 'e']:
         suffix = word[-1]
         word = word[:-1]
         non_verb = True
@@ -217,6 +219,7 @@ print(han_word)
 print(word_eo_to_han("internacia"))
 print(word_eo_to_han("interno"), word_eo_to_han("internajn"))
 print(word_eo_to_han("lernantoj"), word_eo_to_han("lerninto"))
+print(word_eo_to_han("ideo"), word_eo_to_han("ideoj"), word_eo_to_han("hebreoj"))
 # 输出：
 """
 誕成日o
@@ -237,9 +240,9 @@ la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
 # 输出：
 """
 冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. La 名o de la 語o 來as de la 隱名o “D-ro 冀anto„ 
-下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, 
-la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
-他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an  爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
+下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, la rusa, 
+獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
+他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
 """
 
 print("************又一个 fraza ekzemplo**********")
@@ -258,10 +261,10 @@ mi nepre forigos tiun ĉi malbonon.
 # 输出：
 """
 吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on 往 ĉiuj 吾aj 是ontaj 的久oj. 
-入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebre; ĉiuj 出 彼uj 此 elementoj 講as 別an 語on 
-與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o  與 說服成as 在 ĉiu 步o, 
+入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebreoj; ĉiuj 出 彼uj 此 elementoj 講as 別an 語on 
+與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 在 ĉiu 步o, 
 曰 la 繽性o de 語oj 是as la 獨a, 或 almenaŭ la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入 否友aj 部oj. Oni 教久is 吾n 何出 理想者on; 
 oni 吾n 授is, 曰 ĉiuj 人oj 是as 兄oj, 與 當e sur la strato 與 sur la 院o, ĉio 在 ĉiu 步o 化is 吾n 感i, 曰 人oj 不 存as 存as 獨e rusoj, 
-poloj, germanoj, hebre k.t.p. 彼o 此 ĉi愛 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
-因 往 吾 彼愛 似is, 曰 la „大齡aj“ 占as 某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何愛 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
+poloj, germanoj, hebreoj k.t.p. 彼o 此 ĉi愛 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
+因 往 吾 彼愛 似is, 曰 la „大齡aj“ 占as  某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何愛 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
 """

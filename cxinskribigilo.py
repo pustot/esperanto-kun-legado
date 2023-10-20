@@ -208,7 +208,7 @@ def word_eo_to_han(eo_word, is_before_hyphen=False):
 
 
 def sentence_eo_to_han(eo_sentence):
-    eo_word_list = re.findall(r"[\w]+|[.,!?;\-“„]| ", eo_sentence)
+    eo_word_list = re.findall(r"[\w]+|[.,!?;\-“„”\"«»\~\[\]\{\}]| ", eo_sentence)
     return ''.join([word_eo_to_han(word, i + 1 >= len(eo_word_list) or eo_word_list[i + 1] == '-') for (i, word) in enumerate(eo_word_list)])
 
 # word_eo_to_han 使用示例

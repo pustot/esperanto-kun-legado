@@ -77,3 +77,16 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
 - rimed-手段 metod-方法 manier-方式
 - grand-大 -eg-巨 -et-小
     - 因爲grand太長常用，不想叫它巨，所以叫-eg-巨。-et-呢，到底是把常用詞根「小」用起來，還是跟巨對應用「微」？沒想好
+- 人稱代詞
+    - 第二人稱，單數ci漢字化爲汝，複數且今替代單數的vi漢字化爲恁，因爲恁字確實也是單複通用。
+- 性別問題
+    - 中性第三人稱代詞。其實對漢字來說也是無奈，本來「他」就是中性的，非要造個「她」強行對立。考慮到ŝli是派生自ŝi li，所以用了同帶人字旁的「佢」，ri用不帶人字旁的「渠」
+    - 目前兼容-iĉ-「男」，-in-「女」
+        - 相關詞彙 vir-「夫」（夫妻之義給了edz-「婚」），patr-「親」（參考日語），av-「祖」，fil-「子」，nep-「孫」，frat-「兄」，onkl-「叔」，kuz-「堂表兄」（不知道怎麽縮，「表」字給了esprim-，雖然後者也能用「傳」），nev-「侄」
+- dir-言 parol-講 diskut-議 komunik-談 teori-論 anonc-宣 rakont-述 ordon-令 instrukci-指令 las-讓 permes-許
+    - konvink-說服 roman-小說 kongres-會議 propon-建議
+    - dir- 從「說」改到「言」，因爲想把這個常用漢字構件用上。但同爲常用字的「說」就空出來了
+- viv-生 fart-生活 aktiv-活
+    - stud-學 student-徒
+- instru-授 eduk-教
+    - religi-宗教

@@ -84,7 +84,7 @@ print(han_word)
 """
 
 # sentence_eo_to_han 使用示例
-# TODO: 语尾如 -on -an 被错误汉字化
+# TODO: 语尾如 -on -an -i 被错误汉字化
 print(sentence_eo_to_han("""
 Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo. 
 La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto 
@@ -99,5 +99,5 @@ la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
 冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. la 名o de la 語o 來as de la 隱名o “d-ro 冀anto„ 
 下 何u la varsovia 眼-醫者o ludoviko lazaro zamenhofo 入 la 年o 1887 公化is la 基分 de la 語o. la 一a 版o, la rusa, 
 獲is la cenzuran 許分 散廣成某 入 la 26-a de j佬某o; 每 彼un 期分 oni 慮as la 誕成日o de 冀anto. 
-他 的is 和 昌is 創某 易e 習能士 中立士 語分, 適 士 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化某 另ajn, 族ajn 語ojn.
+他 的is 和 昌is 創某 易e 習能士 中立士 語分, 適士 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化某 另ajn, 族ajn 語ojn.
 """

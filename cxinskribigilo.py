@@ -1,8 +1,15 @@
 import csv
 import re
 
+# TODO:
+# ĉiopovan 每op蛋an
+
 # 创建一个空字典来存储字典信息
-dictionary = {}
+dictionary = {
+    # TODO: 如何正确处理不在一词之末的语法后缀，如 loĝantaro
+    "ant": "", "int": "", "ont": "",
+    "at": "", "it": "", "ot": "",
+}
 
 roots = ["ĉar", "ĉi", "ĉu", "kaj", "ke", "la", "minus", "plus",
 	"se", "ĉe", "da", "de", "el", "ekster", "en", "ĝis", "je", "kun", "na",
@@ -14,6 +21,7 @@ roots = ["ĉar", "ĉi", "ĉu", "kaj", "ke", "la", "minus", "plus",
     "plej"
 ]
 
+# TODO: 表解词应该单独处理，而不是词根找译。不然 kiam 就成了 何爱
 correlatives = [
 	"kia", "kial", "kiam", "kie", "kiel", "kies", "kio", "kiom", "kiu",
 	"tia", "tial", "tiam", "tie", "tiel", "ties", "tio", "tiom", "tiu",
@@ -25,7 +33,7 @@ correlatives = [
 
 # 你的 CSV 文件列表
 # 注意，加入映射词典的不包含 "gramatikaj-finaĵoj.csv"，因为有专门的去语法后缀的函数
-csv_files = ["afiksoj.csv", "facilaj-vortoj.csv", "pronomoj-kaj-tabelvortoj.csv", "alioj-de-facila.csv"]
+csv_files = ["pronomoj-kaj-tabelvortoj.csv", "afiksoj.csv", "alioj-de-facila.csv", "facilaj-vortoj.csv"]
 
 # 循环遍历每个 CSV 文件
 for csv_file in csv_files:
@@ -124,7 +132,7 @@ def split_suffix(word):
     if word[-3:] in ['int', 'ant', 'ont']:
         suffix = word[-3:] + suffix
         word = word[:-3]
-    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat']:
+    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat', 'frat', 'rilat']:
         # 特殊情况于 dat- 等词
         suffix = word[-2:] + suffix
         word = word[:-2]
@@ -139,6 +147,14 @@ root_to_chinese = dictionary
 
 # 定义一个函数，将世界语单词转换为汉字化的单词
 def word_eo_to_han(eo_word, is_before_hyphen=False):
+    if not eo_word:
+        return ''
+    is_first_upper = False
+    if eo_word[0].isupper():
+        is_first_upper = True
+    # 目前先都小写
+    eo_word = eo_word.lower()
+
     # if it is before hyphen, it already has no grammatical suffix
     if is_before_hyphen:
         suffix = ''
@@ -148,9 +164,6 @@ def word_eo_to_han(eo_word, is_before_hyphen=False):
             return '此'
         eo_word, suffix = split_suffix(eo_word)
     
-    # 目前先都小写
-    eo_word = eo_word.lower()
-
     # 初始化汉字化后的单词
     chinese_word = ""
 
@@ -186,6 +199,9 @@ def word_eo_to_han(eo_word, is_before_hyphen=False):
             chinese_word = eo_word
             break
 
+    if is_first_upper:
+        chinese_word = chinese_word[0].upper() + chinese_word[1:]
+
     return chinese_word + suffix
 
 
@@ -220,8 +236,32 @@ la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
 """))
 # 输出：
 """
-冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. la 名o de la 語o 來as de la 隱名o “d-ro 冀anto„ 
-下 何u la varsovia 眼-醫者o ludoviko lazaro zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. la 一a 版o, 
+冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. La 名o de la 語o 來as de la 隱名o “D-ro 冀anto„ 
+下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, 
 la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
-他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
+他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an  爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
+"""
+
+print("************又一个 fraza ekzemplo**********")
+print(sentence_eo_to_han("""
+Mi naskiĝis en Bjelostoko, gubernio de Grodno. Tiu ĉi loko de mia naskiĝo kaj de miaj infanaj jaroj donis la direkton 
+al ĉiuj miaj estontaj celadoj. En Bjelostoko la loĝantaro konsistas el kvar diversaj elementoj: rusoj, poloj, 
+germanoj kaj hebreoj; ĉiuj el tiuj ĉi elementoj parolas apartan lingvon kaj neamike rilatas la aliajn elementojn. 
+En tia urbo pli ol ie la impresema naturo sentas la multepezan malfeliĉon de diverslingveco kaj konvinkiĝas ĉe ĉiu paŝo, 
+ke la diverseco de lingvoj estas la sola, aŭ almenaŭ la ĉefa, kaŭzo, kiu disigas la homan familion kaj dividas ĝin en 
+malamikaj partoj. Oni edukadis min kiel idealiston; oni min instruis, ke ĉiuj homoj estas fratoj, kaj dume sur la strato 
+kaj sur la korto, ĉio ĉe ĉiu paŝo igis min senti, ke homoj ne ekzistas: ekzistas sole rusoj, poloj, germanoj, hebreoj k.t.p. 
+Tio ĉi ĉiam forte turmentis mian infanan animon, kvankam multaj eble ridetos pri tiu ĉi „doloro pro la mondo“ ĉe la infano. 
+Ĉar al mi tiam ŝajnis, ke la „grandaĝaj“ posedas ian ĉiopovan forton, mi ripetadis al mi, ke kiam mi estos grandaĝa, 
+mi nepre forigos tiun ĉi malbonon.
+"""))
+# 输出：
+"""
+吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on 往 ĉiuj 吾aj 是ontaj 的久oj. 
+入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebre; ĉiuj 出 彼uj 此 elementoj 講as 別an 語on 
+與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o  與 說服成as 在 ĉiu 步o, 
+曰 la 繽性o de 語oj 是as la 獨a, 或 almenaŭ la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入 否友aj 部oj. Oni 教久is 吾n 何出 理想者on; 
+oni 吾n 授is, 曰 ĉiuj 人oj 是as 兄oj, 與 當e sur la strato 與 sur la 院o, ĉio 在 ĉiu 步o 化is 吾n 感i, 曰 人oj 不 存as 存as 獨e rusoj, 
+poloj, germanoj, hebre k.t.p. 彼o 此 ĉi愛 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
+因 往 吾 彼愛 似is, 曰 la „大齡aj“ 占as 某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何愛 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
 """

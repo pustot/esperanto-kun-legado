@@ -58,13 +58,18 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
     - ide-想 是想法，但不知道怎麽縮合適
     - 想念大概是 sopiri- 但不在基本詞的角逐中，或者用 mank-缺 來構成
 - hom-人 person-個 -ul-佬 -ist-者 popol-民 -an-士 amas-衆 gast-客 membr-員
-    - popol-民 應該是人民，不知道一個漢字怎麽縮
+    - popol-「民」 應該是人民，不知道一個漢字怎麽縮
     - person-個 個人，個體
     - -an- 是國民，所以用「民」好點，但是 popol- 佔之；思及「人士」，用了「士」；參見 兵 soldat-
 - lok-位 ter-地 -ej-所 -uj-鄉 rang-地位
 - hejm-厝 famili-家 naci-族 land-國 ŝtat-邦
     - hejm-厝, dom-屋
     - famili-家, ĝarden-庭
+    - naci- 這個字存在與 internacia 所以更常用，賦予單個漢字「族」。尚有相關概念，（很多暫未加入漢字化列表）如：
+        - gento 氏族（拉丁語gens），raso 種族/人種（類似gento但只有身體屬性沒有文化屬性），etno 族羣（日語也叫民族？），tribo 部落/部族，popolo 人民「民o」
+        - nacio 如果也要用兩個字的話，是國族或者就叫民族，
+            - 日語則嚴格來說稱 nation 爲ネーション，ethnicity 才叫民族。但音譯不是漢字化的本意，所以暫定採取中文的處理方法，nation 叫國族或民族或族，ethnicity 叫族羣。
+        - 所以說光是學習這幾個概念都快繞暈了，我水平有限，這種情況儘量避開漢字化了。。。
 - kaj與 aŭ或 ne不/非 mal-否
     - 想要與計算機的 與、或、非 對應，不過 ne 還是寫作「不」順眼。。。
     - mal- 表示的是反義，自然語言很難有這個詞根。我用了不太口語的「否」防止malbona讀起來像「不好」

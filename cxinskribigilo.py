@@ -316,9 +316,11 @@ aŭtoritaton de feŭda 帝國首o. La 帝國首o 宣稱is, 曰 他 是as 子o de
 是is ornamitaj 凭 繽aj drakofiguroj. Nun 每e 入 Ĉinio 見能as 龍o-ornamentaĵoj, 與 cirkulas 讀應oj 關 龍oj.
     """
 
-    print("************又一个 fraza ekzemplo**********")
-    print(sentence_eo_to_han("partopreni, ĉiopovan"))
+    print("************一些複合詞測試**********")
+    text = "registaro, partopreni, ĉiopovan"
+    print(text)
+    print(sentence_eo_to_han(text))
     # 输出：
     """
-部o取i, ĉio可an
+治者集o, 部o取i, ĉio可an
     """

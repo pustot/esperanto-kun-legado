@@ -1,7 +1,7 @@
 import csv
 import re
 
-# TODO:
+# TODO: （當前通過禁用-op-跳過，但沒解決比如別的詞根或真正用-op-者。比如可以限制-op- -on- 只用於數字前）
 # ĉiopovan 每op蛋an
 
 # 创建一个空字典来存储字典信息
@@ -61,7 +61,6 @@ for csv_file in csv_files:
 
 # The process refers to https://github.com/abadojack/stemmer/blob/master/stemmer.go
 def split_suffix(word):
-    word = word.lower()
     # standalone roots
     if word in roots:
         return word, ''
@@ -144,7 +143,7 @@ def split_suffix(word):
     if word[-3:] in ['int', 'ant', 'ont']:
         suffix = word[-3:] + suffix
         word = word[:-3]
-    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat', 'frat', 'rilat', 'spirit']:
+    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat', 'frat', 'rilat', 'spirit', 'strat']:
         # 特殊情况于 dat- 等词
         suffix = word[-2:] + suffix
         word = word[:-2]
@@ -158,16 +157,19 @@ root_to_chinese = dictionary
 
 
 # 定义一个函数，将世界语单词转换为汉字化的单词
-def word_eo_to_han(eo_word, is_before_hyphen=False):
+def word_eo_to_han(eo_word, is_before_hyphen=False, is_sentence_begin=False):
     if not eo_word:
         return ''
     is_first_upper = False
     if eo_word[0].isupper():
         is_first_upper = True
-    # 目前先都小写
-    eo_word = eo_word.lower()
+    # 目前句首的先都小写，但没法应对句首出现未知词
+    if is_sentence_begin:
+        eo_word = eo_word.lower()
 
     # if it is before hyphen, it already has no grammatical suffix
+    # 不过这种方案目前可以兼容一些连字符前带后缀者如 drako-reĝo -> 龍o-王o
+    # eo 连字符合成词的规则究竟如何，还需了解。
     if is_before_hyphen:
         suffix = ''
     else:
@@ -218,8 +220,16 @@ def word_eo_to_han(eo_word, is_before_hyphen=False):
 
 
 def sentence_eo_to_han(eo_sentence):
-    eo_word_list = re.findall(r"[\w]+|[.,!?;\-“„”\"«»\~\[\]\{\}\n]| ", eo_sentence)
-    return ''.join([word_eo_to_han(word, i + 1 >= len(eo_word_list) or eo_word_list[i + 1] == '-') for (i, word) in enumerate(eo_word_list)])
+    eo_word_list = re.findall(r"[\w]+|[.,!?;\:\-“„”\"«»\~\[\]\{\}\n]| ", eo_sentence)
+    return ''.join([word_eo_to_han(
+        word, 
+        i + 1 < len(eo_word_list) and eo_word_list[i + 1] == '-',
+        # 判断是不是句首，情况太多了。。。
+        (i == 0) or 
+        (i == 1 and eo_word_list[0] == '\n') or 
+        (i-2 >= 0 and eo_word_list[i-1] in [' ', '\n'] and eo_word_list[i-2]=='.') or 
+        (i-3 >= 0 and eo_word_list[i-1] in [' ', '\n'] and eo_word_list[i-2] in [' ', '\n'] and eo_word_list[i-3]=='.')
+        ) for (i, word) in enumerate(eo_word_list)])
 
 if __name__ == "__main__":
     # word_eo_to_han 使用示例
@@ -252,10 +262,13 @@ la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
     """))
     # 输出：
     """
-冀anto, 原e la 語o 間族a, 是as la 最 散廣成inta 間族a 謀語o. La 名o de la 語o 來as de la 隱名o “D-ro 冀anto„ 
-下 何u la varsovia 眼-醫者o Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o. La 一a 版o, 
-la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio; 此 彼un 期on oni 慮as la 誕成日o de 冀anto. 
-他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o; la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
+冀anto, 原e la Lingvo Internacia, 是as la 最 散廣成inta 間族a 謀語o.
+La 名o de la 語o 來as de la 隱名o “D-ro Esperanto„ 下 何u la varsovia 眼-醫者o
+Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o.
+La 一a 版o, la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio;
+此 彼un 期on oni 慮as la 誕成日o de Esperanto.
+他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o;
+la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
     """
 
     print("************又一个 fraza ekzemplo**********")
@@ -274,13 +287,16 @@ mi nepre forigos tiun ĉi malbonon.
     """))
     # 输出：
     """
-吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on 往 每uj 吾aj 是ontaj 的久oj. 
-入 Bjelostoko la 住ant集o 組 成as 出 四 繽aj elementoj rusoj, poloj, germanoj 與 hebreoj; 每uj 出 彼uj 此 elementoj 講as 別an 語on 
-與 不友e 聯as la 另ajn elementojn. 入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 在 每u 步o, 
-曰 la 繽性o de 語oj 是as la 獨a, 或 almenaŭ la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入 否友aj 部oj. Oni 教久is 吾n 何el 理想者on; 
-oni 吾n 授is, 曰 每uj 人oj 是as 兄oj, 與 當e sur la strato 與 sur la 院o, 每o 在 每u 步o 化is 吾n 感i, 曰 人oj 不 存as 存as 獨e rusoj, 
-poloj, germanoj, hebreoj k.t.p. 彼o 此 每am 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 在 la 童o. 
-因 往 吾 彼am 似is, 曰 la „大齡aj“ 占as 某an ĉiop蛋an 力on, 吾 重複久is 往 吾, 曰 何am 吾 是os 大齡a, 吾 定e 離化os 彼un 此 否良on.
+吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on
+往 每uj 吾aj 是ontaj 的久oj. 入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj: rusoj, poloj,
+germanoj 與 hebreoj; 每uj 出 彼uj 此 elementoj 講as 別an 語on 與 不友e 聯as la 另ajn elementojn.
+入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 挨 每u 步o,
+曰 la 繽性o de 語oj 是as la 獨a, 或 至少 la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入
+否友aj 部oj. Oni 教久is 吾n 何el 理想者on; oni 吾n 授is, 曰 每uj 人oj 是as 兄oj, 與 當e sur la 街o
+與 sur la 院o, 每o 挨 每u 步o 化is 吾n 感i, 曰 人oj 不 存as: 存as 獨e rusoj, poloj, germanoj, hebreoj k.t.p.
+彼o 此 每am 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 挨 la 童o.
+因 往 吾 彼am 似is, 曰 la „大齡aj“ 占as 某an ĉio可an 力on, 吾 重複久is 往 吾, 曰 何am 吾 是os 大齡a,
+吾 定e 離化os 彼un 此 否良on.
     """
 
     print("************又一个 fraza ekzemplo**********")
@@ -294,8 +310,15 @@ estis ornamitaj per diversaj drakofiguroj. Nun ĉie en Ĉinio videblas drako-orn
 
     # 输出：
     """
-入 多aj 位oj de Ĉi咱o 是as temploj de drako-王o. 當 太乾性o oni 祈is 入 la temploj, 曰 la drako-王o 予u 雨on 往 la 人a 世o. 彼am drako 
-是is simbolo de la 超自然a 是物o. 與 更 後e, 它 做成is 先親o de la 最 高aj 治antoj 與 simbolis la absolutan aŭtoritaton de feŭda imperiestro. 
-La imperiestro 宣稱is, 曰 他 是as 子o de la drako. 每uj 他aj 
-生需物oj 攜is la 名on drako 與 是is ornamitaj 凭 繽aj drakofiguroj. Nun 每e 入 Ĉi咱o 見能as drako-ornamentaĵoj, 與 cirkulas 讀應oj 關 drakoj.
+入 多aj 位oj de Ĉinio 是as 庙oj de 龍o-王o. 當 太乾性o oni 祈is 入 la 庙oj, 曰 la 龍o-王o 予u 雨on 往 la 人a 世o.
+彼am 龍o 是is simbolo de la 超自然a 是物o. 與 更 後e, 它 做成is 先親o de la 最 高aj 治antoj 與 simbolis la absolutan
+aŭtoritaton de feŭda 帝國首o. La 帝國首o 宣稱is, 曰 他 是as 子o de la 龍o. 每uj 他aj 生需物oj 攜is la 名on 龍o 與
+是is ornamitaj 凭 繽aj drakofiguroj. Nun 每e 入 Ĉinio 見能as 龍o-ornamentaĵoj, 與 cirkulas 讀應oj 關 龍oj.
+    """
+
+    print("************又一个 fraza ekzemplo**********")
+    print(sentence_eo_to_han("partopreni, ĉiopovan"))
+    # 输出：
+    """
+部o取i, ĉio可an
     """

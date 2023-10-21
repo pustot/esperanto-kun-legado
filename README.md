@@ -69,6 +69,7 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
     - 想要與計算機的 與、或、非 對應，不過 ne 還是寫作「不」順眼。。。
     - mal- 表示的是反義，自然語言很難有這個詞根。我用了不太口語的「否」防止malbona讀起來像「不好」
 - supr- super sur ĉe, sub
+    - ĉe 用「在」还是「挨」还是。。。
 - afer-事 okaz-起 ek-開 kaz-案
     - okaz-起 想找個發生之類的字，沒找到，遂參考 起こる
     - ek-開 本來用的起，現在用開吧，其實也合適，「開搞」

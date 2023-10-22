@@ -352,14 +352,16 @@ int main() {
 
 // 现在，世界语的帽子符有问题
 /* 
+************ĉ、ĝ、ĥ、ĵ、ŝ、ŭ  Ĉ, Ĝ, Ĥ, Ĵ, Ŝ, Ŭ**********
 ************vorta ekzemplo**********
 間族a
 是as
 詞ojn
 .
-冀anto, 原e la Lingvo Internacia, 是as la 最 散廣i�inta 間族a 謀語o.
-La 名o de la 語o 來as de la ka�名o “D-ro Esperanto„ 下 何u la varsovia 眼-醫者o
+************fraza/paragrafa ekzemplo**********
+冀anto, 原e la Lingvo Internacia, 是as la 最 散廣成inta 間族a 謀語o.
+La 名o de la 語o 來as de la 隱名o “D-ro Esperanto„ 下 何u la varsovia 眼-醫者o
 Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o.
-La 一a 版o, la rusa, 獲is la cenzuran 許on 散廣i�i 入 la 26-a de julio;
-i 彼un 期on 分某 慮as la 誕i�日o de Esperanto.
+La 一a 版o, la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio;
+此 彼un 期on 分某 慮as la 誕成日o de Esperanto.
 */

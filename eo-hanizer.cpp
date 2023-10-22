@@ -7,6 +7,8 @@
 #include <string>
 #include <algorithm>
 #include <regex>
+#include <locale>
+#include <codecvt>
 
 // TODO: this c++ implementation is not finished
 
@@ -263,9 +265,23 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
     return chinese_word + suffix;
 }
 
+// std::wstring stringToWstring(const std::string& str) {
+//     std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+//     return converter.from_bytes(str);
+// }
+
+// std::string wstringToString(const std::wstring& wstr) {
+//     std::wstring_convert<std::codecvt_utf8<wchar_t>> converter;
+//     return converter.to_bytes(wstr);
+// }
+
 std::string paragraph_eo_to_han(const std::string& eo_paragraph) {
+    // std::wstring w_eo_paragraph = stringToWstring(eo_paragraph);
+    // std::cout << w_eo_paragraph << std::endl;
     std::vector<std::string> eo_word_list;
-    std::regex words_regex(R"([\w]+|[.,!?;\:\-“„”\'\"«»\~\[\]\{\}\n]| )");
+    // 尝试了用 wregex 使 \w 可以自动匹配帽子字母，但引入的问题太多，还是改成直接写一遍吧，即 [\wĉĝĥĵŝŭĈĜĤĴŜŬ]+
+    // std::wregex words_regex(LR"([\w]+|[.,!?;\:\-“„”\'\"«»\~\[\]\{\}\n]| )");
+    std::regex words_regex(R"([\wĉĝĥĵŝŭĈĜĤĴŜŬ]+|[.,!?;\:\-“„”\'\"«»\~\[\]\{\}\n]| )");
     auto words_begin = std::sregex_iterator(eo_paragraph.begin(), eo_paragraph.end(), words_regex);
     auto words_end = std::sregex_iterator();
 
@@ -318,11 +334,13 @@ int main() {
         }
     }
 
+    std::cout << "************ĉ、ĝ、ĥ、ĵ、ŝ、ŭ  Ĉ, Ĝ, Ĥ, Ĵ, Ŝ, Ŭ**********" << std::endl;
     std::cout << "************vorta ekzemplo**********" << std::endl;
     std::cout << word_eo_to_han("internacia") << std::endl;
     std::cout << word_eo_to_han("estas") << std::endl;
     std::cout << word_eo_to_han("vortojn") << std::endl;
     std::cout << word_eo_to_han(".") << std::endl;
+    std::cout << "************fraza/paragrafa ekzemplo**********" << std::endl;
     std::cout << paragraph_eo_to_han("Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo.") << std::endl;
     std::cout << paragraph_eo_to_han("La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto ") << std::endl;
     std::cout << paragraph_eo_to_han("Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. ") << std::endl;

@@ -189,6 +189,10 @@ std::pair<std::string, std::string> splitSuffix(const std::string& eo_word) {
     return std::make_pair(word, suffix);
 }
 
+// 多字符字符常量，它们不是标准C++的一部分，所以从char改成string
+std::map<std::string, std::string> special_upper_to_lower = {
+    {"Ĉ", "ĉ"}, {"Ĝ", "ĝ"}, {"Ĥ", "ĥ"}, {"Ĵ", "ĵ"}, {"Ŝ", "ŝ"}, {"Ŭ", "ŭ"}
+};
 std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=false, bool is_sentence_begin=false) {
     std::string word = eo_word;
     // 如果单词为空，直接返回
@@ -196,12 +200,20 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
         return "";
     }
 
-    bool is_first_upper = std::isupper(word[0]);
-
+    bool is_first_upper = false;
     // 目前句首的先都小写，但没法应对句首出现未知词
     if (is_sentence_begin) {
-        std::transform(word.begin(), word.end(), word.begin(), ::tolower);
+        if (std::isupper(word[0])) {
+            is_first_upper = true;
+            word = "" + std::toupper(word[0]) + word.substr(1);
+        }
+        for (const auto& [upper, lower] : special_upper_to_lower)
+            if (word.find(upper) == 0) { 
+                is_first_upper = true;
+                word.replace(0, upper.length(), lower);
+            }
     }
+    
 
     // if it is before hyphen, it already has no grammatical suffix
     // 不过这种方案目前可以兼容一些连字符前带后缀者如 drako-reĝo -> 龍o-王o
@@ -261,7 +273,13 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
     }
 
     if (is_first_upper) {
-        chinese_word = (char)std::toupper(chinese_word[0]) + chinese_word.substr(1);
+        if (std::islower(chinese_word[0])) {
+            chinese_word = "" + std::toupper(chinese_word[0]) + chinese_word.substr(1);
+        }
+        for (const auto& [upper, lower] : special_upper_to_lower)
+            if (chinese_word.find(lower) == 0) { 
+                chinese_word.replace(0, lower.length(), upper);
+            }
     }
     
 
@@ -341,7 +359,7 @@ int main() {
     }
 
     std::cout << "************ĉ、ĝ、ĥ、ĵ、ŝ、ŭ  Ĉ, Ĝ, Ĥ, Ĵ, Ŝ, Ŭ**********" << std::endl;
-    std::cout << "Test Dict: o " << dictionary.count("o") << ", oni " << dictionary.count("oni") << std::endl;
+    std::cout << "Test Dict: o " << dictionary.count("o") << ", oni " << dictionary.count("oni") << ", aŭ " << dictionary.count("aŭ") << std::endl;
     std::cout << "************vorta ekzemplo**********" << std::endl;
     std::cout << word_eo_to_han("internacia") << std::endl;
     std::cout << word_eo_to_han("estas") << std::endl;
@@ -351,34 +369,36 @@ int main() {
     std::cout  << "partopreni " << word_eo_to_han("partopreni") << std::endl;
     std::cout  << "ĉiopovan " << word_eo_to_han("ĉiopovan") << std::endl;
     std::cout << "************fraza/paragrafa ekzemplo**********" << std::endl;
+    std::cout  << "Ĉar aŭ almenaŭ " << paragraph_eo_to_han("Ĉar aŭ almenaŭ ") << std::endl;
+    std::cout  << "Ĉharaqueter spezielle " << paragraph_eo_to_han("Ĉharaqueter spezielle ") << std::endl;
     std::cout  << "drako-reĝo " << paragraph_eo_to_han("drako-reĝo") << std::endl;
 
-    // Read the Esperanto text from 'testa-teksto.txt'
-    std::ifstream reader("testa-teksto.txt");
-    if (!reader.is_open()) {
-        std::cerr << "Failed to open input file." << std::endl;
-        return 1;
-    }
+    // // Read the Esperanto text from 'testa-teksto.txt'
+    // std::ifstream reader("testa-teksto.txt");
+    // if (!reader.is_open()) {
+    //     std::cerr << "Failed to open input file." << std::endl;
+    //     return 1;
+    // }
 
-    std::stringstream buffer;
-    buffer << reader.rdbuf();
-    std::string eo_text = buffer.str();
-    reader.close();
+    // std::stringstream buffer;
+    // buffer << reader.rdbuf();
+    // std::string eo_text = buffer.str();
+    // reader.close();
 
-    // Convert Esperanto text to Hanzi
-    std::string han_text = paragraph_eo_to_han(eo_text);
+    // // Convert Esperanto text to Hanzi
+    // std::string han_text = paragraph_eo_to_han(eo_text);
 
-    // Write the Hanzi text to 'testa-rezulto.cpp.txt'
-    std::ofstream writer("testa-rezulto.cpp.txt");
-    if (!writer.is_open()) {
-        std::cerr << "Failed to open output file." << std::endl;
-        return 1;
-    }
+    // // Write the Hanzi text to 'testa-rezulto.cpp.txt'
+    // std::ofstream writer("testa-rezulto.cpp.txt");
+    // if (!writer.is_open()) {
+    //     std::cerr << "Failed to open output file." << std::endl;
+    //     return 1;
+    // }
 
-    writer << han_text;
-    writer.close();
+    // writer << han_text;
+    // writer.close();
 
-    std::cout << "Hanzi test-text saved to 'testa-rezulto.cpp.txt'" << std::endl;
+    // std::cout << "Hanzi test-text saved to 'testa-rezulto.cpp.txt'" << std::endl;
 
     return 0;
 }
@@ -386,7 +406,7 @@ int main() {
 // 现在，世界语的帽子符有问题
 /* 
 ************ĉ、ĝ、ĥ、ĵ、ŝ、ŭ  Ĉ, Ĝ, Ĥ, Ĵ, Ŝ, Ŭ**********
-Test Dict: o 1, oni 1
+Test Dict: o 1, oni 1, aŭ 1
 ************vorta ekzemplo**********
 間族a
 是as
@@ -396,5 +416,7 @@ oni oni
 partopreni 部o取i
 ĉiopovan ĉio可an
 ************fraza/paragrafa ekzemplo**********
+Ĉar aŭ almenaŭ 因 aŭ almenaŭ
+Ĉharaqueter spezielle Ĉharaqueter spezielle
 drako-reĝo 龍o-王o
 */

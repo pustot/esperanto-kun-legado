@@ -69,6 +69,7 @@ std::pair<std::string, std::string> splitSuffix(const std::string& eo_word) {
         return std::make_pair("", "");
     }
 
+    
     if (std::find(roots.begin(), roots.end(), word) != roots.end()) {
         return std::make_pair(word, "");
     }
@@ -258,9 +259,11 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
             break;
         }
     }
+
     if (is_first_upper) {
         chinese_word = (char)std::toupper(chinese_word[0]) + chinese_word.substr(1);
     }
+    
 
     return chinese_word + suffix;
 }
@@ -322,11 +325,14 @@ int main() {
         bool isCRLF = line.find('\r') != std::string::npos;
 
         while (std::getline(file, line)) {
+            
             if (isCRLF)
                 line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
             std::istringstream iss(line);
             std::string eo_word, han_word;
-            if (std::getline(iss, eo_word, ',') && std::getline(iss, han_word, ',')) {
+            if (std::getline(iss, eo_word, ',')) {
+                // In case the han field is empty, like "oni," "-o,"
+                if (!std::getline(iss, han_word, ',')) han_word = "";
                 eo_word = trimHyphens(eo_word);  // 去掉前后的连字符
                 dictionary[eo_word] = han_word;  // 将信息存储在unordered_map中
             }
@@ -335,17 +341,44 @@ int main() {
     }
 
     std::cout << "************ĉ、ĝ、ĥ、ĵ、ŝ、ŭ  Ĉ, Ĝ, Ĥ, Ĵ, Ŝ, Ŭ**********" << std::endl;
+    std::cout << "Test Dict: o " << dictionary.count("o") << ", oni " << dictionary.count("oni") << std::endl;
     std::cout << "************vorta ekzemplo**********" << std::endl;
     std::cout << word_eo_to_han("internacia") << std::endl;
     std::cout << word_eo_to_han("estas") << std::endl;
     std::cout << word_eo_to_han("vortojn") << std::endl;
     std::cout << word_eo_to_han(".") << std::endl;
+    std::cout  << "oni " << word_eo_to_han("oni") << std::endl;
+    std::cout  << "partopreni " << word_eo_to_han("partopreni") << std::endl;
+    std::cout  << "ĉiopovan " << word_eo_to_han("ĉiopovan") << std::endl;
     std::cout << "************fraza/paragrafa ekzemplo**********" << std::endl;
-    std::cout << paragraph_eo_to_han("Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo.") << std::endl;
-    std::cout << paragraph_eo_to_han("La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto ") << std::endl;
-    std::cout << paragraph_eo_to_han("Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. ") << std::endl;
-    std::cout << paragraph_eo_to_han("La unua versio, la rusa, ricevis la cenzuran permeson disvastiĝi en la 26-a de julio; ") << std::endl;
-    std::cout << paragraph_eo_to_han("ĉi tiun daton oni konsideras la naskiĝtago de Esperanto. ") << std::endl;
+    std::cout  << "drako-reĝo " << paragraph_eo_to_han("drako-reĝo") << std::endl;
+
+    // Read the Esperanto text from 'testa-teksto.txt'
+    std::ifstream reader("testa-teksto.txt");
+    if (!reader.is_open()) {
+        std::cerr << "Failed to open input file." << std::endl;
+        return 1;
+    }
+
+    std::stringstream buffer;
+    buffer << reader.rdbuf();
+    std::string eo_text = buffer.str();
+    reader.close();
+
+    // Convert Esperanto text to Hanzi
+    std::string han_text = paragraph_eo_to_han(eo_text);
+
+    // Write the Hanzi text to 'testa-rezulto.cpp.txt'
+    std::ofstream writer("testa-rezulto.cpp.txt");
+    if (!writer.is_open()) {
+        std::cerr << "Failed to open output file." << std::endl;
+        return 1;
+    }
+
+    writer << han_text;
+    writer.close();
+
+    std::cout << "Hanzi test-text saved to 'testa-rezulto.cpp.txt'" << std::endl;
 
     return 0;
 }
@@ -353,15 +386,15 @@ int main() {
 // 现在，世界语的帽子符有问题
 /* 
 ************ĉ、ĝ、ĥ、ĵ、ŝ、ŭ  Ĉ, Ĝ, Ĥ, Ĵ, Ŝ, Ŭ**********
+Test Dict: o 1, oni 1
 ************vorta ekzemplo**********
 間族a
 是as
 詞ojn
 .
+oni oni
+partopreni 部o取i
+ĉiopovan ĉio可an
 ************fraza/paragrafa ekzemplo**********
-冀anto, 原e la Lingvo Internacia, 是as la 最 散廣成inta 間族a 謀語o.
-La 名o de la 語o 來as de la 隱名o “D-ro Esperanto„ 下 何u la varsovia 眼-醫者o
-Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o.
-La 一a 版o, la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio;
-此 彼un 期on 分某 慮as la 誕成日o de Esperanto.
+drako-reĝo 龍o-王o
 */

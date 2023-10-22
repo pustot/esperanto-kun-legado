@@ -207,8 +207,8 @@ def word_eo_to_han(eo_word, is_before_hyphen=False, is_sentence_begin=False):
     return chinese_word + suffix
 
 
-def sentence_eo_to_han(eo_sentence):
-    eo_word_list = re.findall(r"[\w]+|[.,!?;\:\-“„”\"«»\~\[\]\{\}\n]| ", eo_sentence)
+def paragraph_eo_to_han(eo_paragraph):
+    eo_word_list = re.findall(r"[\w]+|[.,!?;\:\-“„”\"«»\~\[\]\{\}\n]| ", eo_paragraph)
     return ''.join([word_eo_to_han(
         word, 
         i + 1 < len(eo_word_list) and eo_word_list[i + 1] == '-',
@@ -220,95 +220,15 @@ def sentence_eo_to_han(eo_sentence):
         ) for (i, word) in enumerate(eo_word_list)])
 
 if __name__ == "__main__":
-    # word_eo_to_han 使用示例
-    eo_word = "naskiĝtago"
-    han_word = word_eo_to_han(eo_word)
     print("************vorta ekzemplo**********")
-    print(han_word)  
-    print(word_eo_to_han("internacia"))
+    print(word_eo_to_han("internacia"), word_eo_to_han("lernantoj"), word_eo_to_han("lerninto"))
     print(word_eo_to_han("interno"), word_eo_to_han("internajn"))
-    print(word_eo_to_han("lernantoj"), word_eo_to_han("lerninto"))
     print(word_eo_to_han("ideo"), word_eo_to_han("ideoj"), word_eo_to_han("hebreoj"))
     print(word_eo_to_han("Ĉiuj"))
-    # 输出：
-    """
-    誕成日o
-    """
 
-    # sentence_eo_to_han 使用示例
-    # TODO: 语尾如 -on -an -i 被错误汉字化
-    print("************fraza ekzemplo**********")
-    print(sentence_eo_to_han(
-        """
-Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo. 
-La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto 
-Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. 
-La unua versio, la rusa, ricevis la cenzuran permeson disvastiĝi en la 26-a de julio; 
-ĉi tiun daton oni konsideras la naskiĝtago de Esperanto. 
-Li celis kaj sukcesis krei facile lerneblan neŭtralan lingvon, taŭgan por uzo en la internacia komunikado; 
-la celo tamen ne estas anstataŭigi aliajn, naciajn lingvojn.
-    """))
-    # 输出：
-    """
-冀anto, 原e la Lingvo Internacia, 是as la 最 散廣成inta 間族a 謀語o.
-La 名o de la 語o 來as de la 隱名o “D-ro Esperanto„ 下 何u la varsovia 眼-醫者o
-Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o.
-La 一a 版o, la rusa, 獲is la cenzuran 許on 散廣成i 入 la 26-a de julio;
-此 彼un 期on oni 慮as la 誕成日o de Esperanto.
-他 的is 與 昌is 創i 易e 習能an 中立an 語on, 適an 爲 使o 入 la 間族a 談久o;
-la 的o 然而 不 是as 替化i 另ajn, 族ajn 語ojn.
-    """
-
-    print("************又一个 fraza ekzemplo**********")
-    print(sentence_eo_to_han(
-        """
-Mi naskiĝis en Bjelostoko, gubernio de Grodno. Tiu ĉi loko de mia naskiĝo kaj de miaj infanaj jaroj donis la direkton 
-al ĉiuj miaj estontaj celadoj. En Bjelostoko la loĝantaro konsistas el kvar diversaj elementoj: rusoj, poloj, 
-germanoj kaj hebreoj; ĉiuj el tiuj ĉi elementoj parolas apartan lingvon kaj neamike rilatas la aliajn elementojn. 
-En tia urbo pli ol ie la impresema naturo sentas la multepezan malfeliĉon de diverslingveco kaj konvinkiĝas ĉe ĉiu paŝo, 
-ke la diverseco de lingvoj estas la sola, aŭ almenaŭ la ĉefa, kaŭzo, kiu disigas la homan familion kaj dividas ĝin en 
-malamikaj partoj. Oni edukadis min kiel idealiston; oni min instruis, ke ĉiuj homoj estas fratoj, kaj dume sur la strato 
-kaj sur la korto, ĉio ĉe ĉiu paŝo igis min senti, ke homoj ne ekzistas: ekzistas sole rusoj, poloj, germanoj, hebreoj k.t.p. 
-Tio ĉi ĉiam forte turmentis mian infanan animon, kvankam multaj eble ridetos pri tiu ĉi „doloro pro la mondo“ ĉe la infano. 
-Ĉar al mi tiam ŝajnis, ke la „grandaĝaj“ posedas ian ĉiopovan forton, mi ripetadis al mi, ke kiam mi estos grandaĝa, 
-mi nepre forigos tiun ĉi malbonon.
-    """))
-    # 输出：
-    """
-吾 誕成is 入 Bjelostoko, gubernio de Grodno. 彼u 此 位o de 吾a 誕成o 與 de 吾aj 童aj 年oj 予is la 向on
-往 每uj 吾aj 是ontaj 的久oj. 入 Bjelostoko la 住ant集o 組成as 出 四 繽aj elementoj: rusoj, poloj,
-germanoj 與 hebreoj; 每uj 出 彼uj 此 elementoj 講as 別an 語on 與 不友e 聯as la 另ajn elementojn.
-入 彼a 城o 更 比 某e la impresema 自然o 感as la 多e重an 否幸on de 繽語性o 與 說服成as 挨 每u 步o,
-曰 la 繽性o de 語oj 是as la 獨a, 或 至少 la 主a, 致o, 何u 散化as la 人an 家on 與 割as 它n 入
-否友aj 部oj. Oni 教久is 吾n 何el 理想者on; oni 吾n 授is, 曰 每uj 人oj 是as 兄oj, 與 當e sur la 街o
-與 sur la 院o, 每o 挨 每u 步o 化is 吾n 感i, 曰 人oj 不 存as: 存as 獨e rusoj, poloj, germanoj, hebreoj k.t.p.
-彼o 此 每am 力e turmentis 吾an 童an 靈on, 雖 多aj 能e 笑小os 關 彼u 此 „痛o 由 la 世o“ 挨 la 童o.
-因 往 吾 彼am 似is, 曰 la „大齡aj“ 占as 某an ĉio可an 力on, 吾 重複久is 往 吾, 曰 何am 吾 是os 大齡a,
-吾 定e 離化os 彼un 此 否良on.
-    """
-
-    print("************又一个 fraza ekzemplo**********")
-    print(sentence_eo_to_han(
-        """
-En multaj lokoj de Ĉinio estas temploj de drako-reĝo. Dum trosekeco oni preĝis en la temploj, ke la drako-reĝo donu pluvon al la homa mondo. 
-Tiam drako estis simbolo de la supernatura estaĵo. Kaj pli poste, ĝi fariĝis prapatro de la plej altaj regantoj kaj simbolis la absolutan 
-aŭtoritaton de feŭda imperiestro. La imperiestro pretendis, ke li estas filo de la drako. Ĉiuj liaj vivbezonaĵoj portis la nomon drako kaj 
-estis ornamitaj per diversaj drakofiguroj. Nun ĉie en Ĉinio videblas drako-ornamentaĵoj, kaj cirkulas legendoj pri drakoj.
-        """))
-
-    # 输出：
-    """
-入 多aj 位oj de Ĉinio 是as 庙oj de 龍o-王o. 當 太乾性o oni 祈is 入 la 庙oj, 曰 la 龍o-王o 予u 雨on 往 la 人a 世o.
-彼am 龍o 是is simbolo de la 超自然a 是物o. 與 更 後e, 它 做成is 先親o de la 最 高aj 治antoj 與 simbolis la absolutan
-aŭtoritaton de feŭda 帝國首o. La 帝國首o 宣稱is, 曰 他 是as 子o de la 龍o. 每uj 他aj 生需物oj 攜is la 名on 龍o 與
-是is ornamitaj 凭 繽aj drakofiguroj. Nun 每e 入 Ĉinio 見能as 龍o-ornamentaĵoj, 與 cirkulas 讀應oj 關 龍oj.
-    """
-
-    print("************一些複合詞測試**********")
-    text = "registaro, partopreni, ĉiopovan"
-    print(text)
-    print(sentence_eo_to_han(text))
-    # 输出：
-    """
-治者集o, 部o取i, ĉio可an
-    """
+    # hanize 'testa-teksto.txt' and export to 'testa-rezulto.py.txt'
+    with open('testa-teksto.txt', 'r', encoding='utf-8') as reader:
+        eo_text = reader.read()
+    han_text = paragraph_eo_to_han(eo_text)
+    with open('testa-rezulto.py.txt', 'w', encoding='utf-8') as writer:
+        writer.write(han_text)

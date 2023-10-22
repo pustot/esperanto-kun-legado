@@ -12,7 +12,7 @@
 // ĉiopovan 每op蛋an
 
 // 创建一个空字典来存储字典信息
-std::map<std::string, std::string> dictionary = {
+std::unordered_map<std::string, std::string> dictionary = {
     // TODO: 如何正确处理不在一词之末的语法后缀，如 loĝantaro
         {"ant", ""}, {"int", ""}, {"ont", ""},
         {"at", ""}, {"it", ""}, {"ot", ""}
@@ -205,6 +205,55 @@ std::pair<std::string, std::string> splitSuffix(const std::string& eo_word) {
     return std::make_pair(word, suffix);
 }
 
+std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=false, bool is_sentence_begin=false) {
+    // 如果单词为空，直接返回
+    if (eo_word.empty()) {
+        return "";
+    }
+
+    bool is_first_upper = !eo_word.empty() && std::isupper(eo_word[0]);
+
+    // 目前句首的先都小写，但没法应对句首出现未知词
+    if (is_sentence_begin) {
+        eo_word = std::tolower(eo_word);
+    }
+
+    // if it is before hyphen, it already has no grammatical suffix
+    // 不过这种方案目前可以兼容一些连字符前带后缀者如 drako-reĝo -> 龍o-王o
+    // eo 连字符合成词的规则究竟如何，还需了解。
+    if (is_before_hyphen) {
+        suffix = "";
+    } else {
+        // TODO: 仅为避混于「每」之紧急措施。
+        if (eo_word == "ĉi")
+            return "此"
+        // C++ 17 中的结构化绑定（Structured Binding）
+        auto [eo_word, suffix] = split_suffix(eo_word);
+    }
+
+    // 初始化汉字化后的单词
+    std::string chinese_word = "";
+
+    // 遍历世界语单词的每个字母
+    int i = 0;
+    while (i < eo_word.size()) {
+        // 从当前位置开始查找最长的词根
+        std::string current_root = "";
+        int j = i;
+        int valid_j = i;
+        while (j < eo_word.size()) {
+            std::string substring = eo_word.substr(i, j - i + 1);
+            if (dictionary.find(substring) != dictionary.end()) {
+                current_root = substring;
+                valid_j = j;
+            }
+            j++;
+        }
+
+        // TODO: 暂时对 intern 特殊处理以应对 internacia 样单词
+        
+    }
+}
 
 void main() {
     std::cout << "************vorta ekzemplo**********" << std::endl;

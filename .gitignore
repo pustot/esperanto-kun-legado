@@ -1,2 +1,9 @@
+# C++
+
+*.o
+*.out
+/build/
+
+# Python
 
 __pycache__

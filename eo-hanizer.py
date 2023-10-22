@@ -208,7 +208,7 @@ def word_eo_to_han(eo_word, is_before_hyphen=False, is_sentence_begin=False):
 
 
 def paragraph_eo_to_han(eo_paragraph):
-    eo_word_list = re.findall(r"[\w]+|[.,!?;\:\-“„”\"«»\~\[\]\{\}\n]| ", eo_paragraph)
+    eo_word_list = re.findall(r"[\w]+|[.,!?;\:\-“„”\'\"«»\~\[\]\{\}\n]| ", eo_paragraph)
     return ''.join([word_eo_to_han(
         word, 
         i + 1 < len(eo_word_list) and eo_word_list[i + 1] == '-',

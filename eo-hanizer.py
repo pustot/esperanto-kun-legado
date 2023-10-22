@@ -21,14 +21,6 @@ roots = ["ĉar", "ĉi", "ĉu", "kaj", "ke", "la", "minus", "plus",
     "plej"
 ]
 
-# TODO: 表解词应该单独处理，而不是词根找译。不然 kiam 就成了 何爱
-correlatives = [
-	"kia", "kial", "kiam", "kie", "kiel", "kies", "kio", "kiom", "kiu",
-	"tia", "tial", "tiam", "tie", "tiel", "ties", "tio", "tiom", "tiu",
-	"ia", "ial", "iam", "ie", "iel", "ies", "io", "iom", "iu",
-	"ĉia", "ĉial", "ĉiam", "ĉie", "ĉiel", "ĉies", "ĉio", "ĉiom", "ĉiu",
-	"nenia", "nenial", "neniam", "nenie", "neniel", "nenies", "nenio", "neniom", "neniu",
-]
 correlative_dict = {
     "kia": "何a", "kial": "何al", "kiam": "何am", "kie": "何e", "kiel": "何el", "kies": "何es", "kio": "何o", "kiom": "何om", "kiu": "何u",
 	"tia": "彼a", "tial": "彼al", "tiam": "彼am", "tie": "彼e", "tiel": "彼el", "ties": "彼es", "tio": "彼o", "tiom": "彼om", "tiu": "彼u",
@@ -92,7 +84,7 @@ def split_suffix(word):
         return word[:-2], 'en'
 
     # correlative roots
-    if word in correlatives or (suffix and word + suffix[0] in correlatives):
+    if word in correlative_dict or (suffix and word + suffix[0] in correlative_dict):
         if suffix:
             word += suffix[0]
             suffix = suffix[1:]

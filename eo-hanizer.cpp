@@ -193,7 +193,7 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
         return "";
     }
 
-    bool is_first_upper = !word.empty() && std::isupper(word[0]);
+    bool is_first_upper = std::isupper(word[0]);
 
     // 目前句首的先都小写，但没法应对句首出现未知词
     if (is_sentence_begin) {
@@ -249,14 +249,13 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
             i = valid_j + 1;
         } else {
             // 如果未找到词根，则保留原始字符
-            chinese_word += word[i];
+            // chinese_word += word[i];
             // i += 1
             // TODO: 在只有部分词根有记录时，如何处理，以使例如 `cenzuran` 不变成 `c入zur民`。暂时全词皆删
             chinese_word = word;
             break;
         }
     }
-
     if (is_first_upper) {
         chinese_word = (char)std::toupper(chinese_word[0]) + chinese_word.substr(1);
     }
@@ -281,9 +280,11 @@ std::string paragraph_eo_to_han(const std::string& eo_paragraph) {
         //  判断是不是句首，情况太多了。。。
         bool is_sentence_start = ((i == 0) || (i == 1 && eo_word_list[0] == "\n") ||
             (i - 2 >= 0 && (eo_word_list[i - 1] == " " || eo_word_list[i - 1] == "\n") && eo_word_list[i - 2] == ".") ||
-            (i - 3 >= 0 && (eo_word_list[i - 1] == " " || eo_word_list[i - 1] == "\n") && (eo_word_list[i - 2] == " " || eo_word_list[i - 2] == "\n") && eo_word_list[i - 3] == "."));
+            (i - 3 >= 0 && (eo_word_list[i - 1] == " " || eo_word_list[i - 1] == "\n") && 
+                    (eo_word_list[i - 2] == " " || eo_word_list[i - 2] == "\n") && eo_word_list[i - 3] == "."));
 
         std::string han_word = word_eo_to_han(word, is_hyphen_next, is_sentence_start);
+        
         han_text += han_word;
     }
 
@@ -301,19 +302,46 @@ int main() {
 
         std::string line;
         std::getline(file, line);  // 读取第一行（标题），但不使用它
+        // 文件可能跨越操作系统，所以必须判断结尾是 CRLF 还是 LF，否则汉字后会带\r，显示完全错误
+        bool isCRLF = line.find('\r') != std::string::npos;
 
         while (std::getline(file, line)) {
+            if (isCRLF)
+                line.erase(std::remove(line.begin(), line.end(), '\r'), line.end());
             std::istringstream iss(line);
             std::string eo_word, han_word;
             if (std::getline(iss, eo_word, ',') && std::getline(iss, han_word, ',')) {
                 eo_word = trimHyphens(eo_word);  // 去掉前后的连字符
                 dictionary[eo_word] = han_word;  // 将信息存储在unordered_map中
             }
+            
         }
     }
 
     std::cout << "************vorta ekzemplo**********" << std::endl;
     std::cout << word_eo_to_han("internacia") << std::endl;
+    std::cout << word_eo_to_han("estas") << std::endl;
+    std::cout << word_eo_to_han("vortojn") << std::endl;
+    std::cout << word_eo_to_han(".") << std::endl;
+    std::cout << paragraph_eo_to_han("Esperanto, origine la Lingvo Internacia, estas la plej disvastiĝinta internacia planlingvo.") << std::endl;
+    std::cout << paragraph_eo_to_han("La nomo de la lingvo venas de la kaŝnomo “D-ro Esperanto„ sub kiu la varsovia okul-kuracisto ") << std::endl;
+    std::cout << paragraph_eo_to_han("Ludoviko Lazaro Zamenhofo en la jaro 1887 publikigis la bazon de la lingvo. ") << std::endl;
+    std::cout << paragraph_eo_to_han("La unua versio, la rusa, ricevis la cenzuran permeson disvastiĝi en la 26-a de julio; ") << std::endl;
+    std::cout << paragraph_eo_to_han("ĉi tiun daton oni konsideras la naskiĝtago de Esperanto. ") << std::endl;
 
     return 0;
 }
+
+// 现在，世界语的帽子符有问题
+/* 
+************vorta ekzemplo**********
+間族a
+是as
+詞ojn
+.
+冀anto, 原e la Lingvo Internacia, 是as la 最 散廣i�inta 間族a 謀語o.
+La 名o de la 語o 來as de la ka�名o “D-ro Esperanto„ 下 何u la varsovia 眼-醫者o
+Ludoviko Lazaro Zamenhofo 入 la 年o 1887 公化is la 基on de la 語o.
+La 一a 版o, la rusa, 獲is la cenzuran 許on 散廣i�i 入 la 26-a de julio;
+i 彼un 期on 分某 慮as la 誕i�日o de Esperanto.
+*/

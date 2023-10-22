@@ -144,10 +144,6 @@ def split_suffix(word):
     return word, suffix
 
 
-# 定义一个字典，将世界语词根映射到对应的汉字
-root_to_chinese = dictionary
-
-
 # 定义一个函数，将世界语单词转换为汉字化的单词
 def word_eo_to_han(eo_word, is_before_hyphen=False, is_sentence_begin=False):
     if not eo_word:
@@ -181,21 +177,21 @@ def word_eo_to_han(eo_word, is_before_hyphen=False, is_sentence_begin=False):
         j = i
         valid_j = i
         while j < len(eo_word):
-            if eo_word[i:j + 1] in root_to_chinese:
+            if eo_word[i:j + 1] in dictionary:
                 current_root = eo_word[i:j + 1]
                 valid_j = j
             j += 1
 
         # TODO: 暂时对 intern 特殊处理以应对 internacia 样单词
         if current_root == 'intern' and valid_j + 2 < len(eo_word):
-            chinese_word += root_to_chinese['inter']
+            chinese_word += dictionary['inter']
             i = valid_j
             continue
 
         # 如果找到了词根，则将其替换为对应的汉字
         if current_root:
             # 有的词根的汉字化列置空，如此则还是保留拉丁字形式
-            chinese_word += root_to_chinese[current_root] if root_to_chinese[current_root] != "" else current_root
+            chinese_word += dictionary[current_root] if dictionary[current_root] != "" else current_root
             i = valid_j + 1
         else:
             # 如果未找到词根，则保留原始字符

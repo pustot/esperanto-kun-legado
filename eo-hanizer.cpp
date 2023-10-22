@@ -18,6 +18,7 @@ std::map<std::string, std::string> dictionary = {
         {"at", ""}, {"it", ""}, {"ot", ""}
 };
 
+// standalone roots
 std::vector<std::string> roots = {
     "ĉar", "ĉi", "ĉu", "kaj", "ke", "la", "minus", "plus",
     "se", "ĉe", "da", "de", "el", "ekster", "en", "ĝis", "je", "kun", "na",
@@ -202,4 +203,9 @@ std::pair<std::string, std::string> splitSuffix(const std::string& eo_word) {
     }
 
     return std::make_pair(word, suffix);
+}
+
+
+void main() {
+    std::cout << "************vorta ekzemplo**********" << std::endl;
 }

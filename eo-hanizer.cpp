@@ -325,7 +325,7 @@ std::string paragraph_eo_to_han(const std::string& eo_paragraph) {
         const std::string& word = eo_word_list[i];
         bool is_hyphen_next = (i + 1 < eo_word_list.size()) && (eo_word_list[i + 1] == "-");
         //  判断是不是句首，情况太多了。。。
-        bool is_sentence_start = ((i == 0) || (i == 1 && eo_word_list[0] == "\n") ||
+        bool is_sentence_start = ((i == 0) || (i - 1 >= 0 && eo_word_list[i - 1] == "\n") ||
             (i - 2 >= 0 && (eo_word_list[i - 1] == " " || eo_word_list[i - 1] == "\n") && eo_word_list[i - 2] == ".") ||
             (i - 3 >= 0 && (eo_word_list[i - 1] == " " || eo_word_list[i - 1] == "\n") && 
                     (eo_word_list[i - 2] == " " || eo_word_list[i - 2] == "\n") && eo_word_list[i - 3] == "."));

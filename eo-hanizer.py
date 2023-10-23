@@ -214,7 +214,7 @@ def paragraph_eo_to_han(eo_paragraph):
         i + 1 < len(eo_word_list) and eo_word_list[i + 1] == '-',
         # 判断是不是句首，情况太多了。。。
         (i == 0) or 
-        (i == 1 and eo_word_list[0] == '\n') or 
+        (i - 1 >= 0 and eo_word_list[i - 1] == "\n") or 
         (i-2 >= 0 and eo_word_list[i-1] in [' ', '\n'] and eo_word_list[i-2]=='.') or 
         (i-3 >= 0 and eo_word_list[i-1] in [' ', '\n'] and eo_word_list[i-2] in [' ', '\n'] and eo_word_list[i-3]=='.')
         ) for (i, word) in enumerate(eo_word_list)])

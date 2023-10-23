@@ -183,7 +183,7 @@ std::pair<std::string, std::string> splitSuffix(const std::string& eo_word) {
 	    // -into -anto -onto → -anto → o
 	    // -ito  -ato  -oto  → -ato → o
     // 特殊情况于 dat- 等词
-    std::vector<std::string> special_roots_with_xt = {"dat", "frat", "rilat", "spirit", "strat"};
+    std::vector<std::string> special_roots_with_xt = {"dat", "frat", "milit", "rilat", "spirit", "strat"};
     if (word.size() > 3 && (
             word.substr(word.size() - 3) == "int" ||
             word.substr(word.size() - 3) == "ant" ||

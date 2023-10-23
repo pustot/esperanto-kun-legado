@@ -135,7 +135,7 @@ def split_suffix(word):
     if word[-3:] in ['int', 'ant', 'ont']:
         suffix = word[-3:] + suffix
         word = word[:-3]
-    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat', 'frat', 'rilat', 'spirit', 'strat']:
+    elif word[-2:] in ['it', 'at', 'ot'] and word not in ['dat', 'frat', "milit", 'rilat', 'spirit', 'strat']:
         # 特殊情况于 dat- 等词
         suffix = word[-2:] + suffix
         word = word[:-2]

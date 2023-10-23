@@ -10,6 +10,13 @@ Dankon al https://zhuanlan.zhihu.com/p/349645051 (sed multaj enskriboj estas mal
 
 參見學習筆記 https://github.com/twaqngu/TwaqNoto/blob/master/400-Lingvo/400-eo-Esperanto.md
 
+# C++ Usage
+
+```bash
+# 测试阶段
+g++ eo-hanizer.cpp -g && ./a.out
+```
+
 # Python Usage
 
 ```py

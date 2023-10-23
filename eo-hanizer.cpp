@@ -311,7 +311,7 @@ std::string paragraph_eo_to_han(const std::string& eo_paragraph) {
     std::vector<std::string> eo_word_list;
     // 尝试了用 wregex 使 \w 可以自动匹配帽子字母，但引入的问题太多，还是改成直接写一遍吧，即 [\wĉĝĥĵŝŭĈĜĤĴŜŬ]+
     // std::wregex words_regex(LR"([\w]+|[.,!?;\:\-“„”\'\"«»\~\[\]\{\}\n]| )");
-    std::regex words_regex(R"([\wĉĝĥĵŝŭĈĜĤĴŜŬ]+|[.,!?;\:\-“„”\'\"«»\~\[\]\{\}\n]| )");
+    std::regex words_regex(R"([\wĉĝĥĵŝŭĈĜĤĴŜŬ]+|[.,!?;\:\-“„”\'\"«»\~\[\]\{\}\n–]| )");
     auto words_begin = std::sregex_iterator(eo_paragraph.begin(), eo_paragraph.end(), words_regex);
     auto words_end = std::sregex_iterator();
 

@@ -205,7 +205,7 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
     if (is_sentence_begin) {
         if (std::isupper(word[0])) {
             is_first_upper = true;
-            word = "" + std::toupper(word[0]) + word.substr(1);
+            word[0] = std::tolower(word[0]);
         }
         for (const auto& [upper, lower] : special_upper_to_lower)
             if (word.find(upper) == 0) { 
@@ -213,7 +213,6 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
                 word.replace(0, upper.length(), lower);
             }
     }
-    
 
     // if it is before hyphen, it already has no grammatical suffix
     // 不过这种方案目前可以兼容一些连字符前带后缀者如 drako-reĝo -> 龍o-王o
@@ -274,7 +273,7 @@ std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=fal
 
     if (is_first_upper) {
         if (std::islower(chinese_word[0])) {
-            chinese_word = "" + std::toupper(chinese_word[0]) + chinese_word.substr(1);
+            chinese_word[0] = std::toupper(chinese_word[0]);
         }
         for (const auto& [upper, lower] : special_upper_to_lower)
             if (chinese_word.find(lower) == 0) { 
@@ -373,32 +372,32 @@ int main() {
     std::cout  << "Ĉharaqueter spezielle " << paragraph_eo_to_han("Ĉharaqueter spezielle ") << std::endl;
     std::cout  << "drako-reĝo " << paragraph_eo_to_han("drako-reĝo") << std::endl;
 
-    // // Read the Esperanto text from 'testa-teksto.txt'
-    // std::ifstream reader("testa-teksto.txt");
-    // if (!reader.is_open()) {
-    //     std::cerr << "Failed to open input file." << std::endl;
-    //     return 1;
-    // }
+    // Read the Esperanto text from 'testa-teksto.txt'
+    std::ifstream reader("testa-teksto.txt");
+    if (!reader.is_open()) {
+        std::cerr << "Failed to open input file." << std::endl;
+        return 1;
+    }
 
-    // std::stringstream buffer;
-    // buffer << reader.rdbuf();
-    // std::string eo_text = buffer.str();
-    // reader.close();
+    std::stringstream buffer;
+    buffer << reader.rdbuf();
+    std::string eo_text = buffer.str();
+    reader.close();
 
-    // // Convert Esperanto text to Hanzi
-    // std::string han_text = paragraph_eo_to_han(eo_text);
+    // Convert Esperanto text to Hanzi
+    std::string han_text = paragraph_eo_to_han(eo_text);
 
-    // // Write the Hanzi text to 'testa-rezulto.cpp.txt'
-    // std::ofstream writer("testa-rezulto.cpp.txt");
-    // if (!writer.is_open()) {
-    //     std::cerr << "Failed to open output file." << std::endl;
-    //     return 1;
-    // }
+    // Write the Hanzi text to 'testa-rezulto.cpp.txt'
+    std::ofstream writer("testa-rezulto.cpp.txt");
+    if (!writer.is_open()) {
+        std::cerr << "Failed to open output file." << std::endl;
+        return 1;
+    }
 
-    // writer << han_text;
-    // writer.close();
+    writer << han_text;
+    writer.close();
 
-    // std::cout << "Hanzi test-text saved to 'testa-rezulto.cpp.txt'" << std::endl;
+    std::cout << "Hanzi test-text saved to 'testa-rezulto.cpp.txt'" << std::endl;
 
     return 0;
 }

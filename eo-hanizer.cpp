@@ -404,6 +404,8 @@ int main() {
         return 1;
     }
 
+    // Use UTF-8 encoding
+    writer.imbue(std::locale(writer.getloc(), new std::codecvt_utf8<wchar_t>));
     writer << han_text;
     writer.close();
 

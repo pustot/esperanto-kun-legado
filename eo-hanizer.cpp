@@ -15,6 +15,11 @@
 // TODO: （當前通過禁用-op-跳過，但沒解決比如別的詞根或真正用-op-者。比如可以限制-op- -on- 只用於數字前）
 // ĉiopovan 每op蛋an
 
+// 多字符字符常量，它们不是标准C++的一部分，所以从char改成string
+std::map<std::string, std::string> special_upper_to_lower = {
+    {"Ĉ", "ĉ"}, {"Ĝ", "ĝ"}, {"Ĥ", "ĥ"}, {"Ĵ", "ĵ"}, {"Ŝ", "ŝ"}, {"Ŭ", "ŭ"}
+};
+
 // 创建一个空字典来存储字典信息
 std::unordered_map<std::string, std::string> dictionary = {
     // TODO: 如何正确处理不在一词之末的语法后缀，如 loĝantaro
@@ -74,12 +79,21 @@ std::pair<std::string, std::string> splitSuffix(const std::string& eo_word) {
         return std::make_pair(word, "");
     }
 
+    // isalpha 只能应对26个拉丁字母。ux等特殊处理
+
     if (!std::isalpha(word.back())) {
         if (word.size() == 1) {
             return std::make_pair(word, "");
         }
-        suffix = std::string(1, word.back());
-        word = word.substr(0, word.size() - 1);
+        bool last_is_special_letter = false;
+        for (const auto& [upper, lower] : special_upper_to_lower) {
+            if (word.substr(word.length() - lower.length()) == lower)
+                last_is_special_letter = true;
+        }
+        if (!last_is_special_letter) {
+            suffix = std::string(1, word.back());
+            word = word.substr(0, word.size() - 1);
+        }
     }
 
     bool non_verb = false;
@@ -189,10 +203,6 @@ std::pair<std::string, std::string> splitSuffix(const std::string& eo_word) {
     return std::make_pair(word, suffix);
 }
 
-// 多字符字符常量，它们不是标准C++的一部分，所以从char改成string
-std::map<std::string, std::string> special_upper_to_lower = {
-    {"Ĉ", "ĉ"}, {"Ĝ", "ĝ"}, {"Ĥ", "ĥ"}, {"Ĵ", "ĵ"}, {"Ŝ", "ŝ"}, {"Ŭ", "ŭ"}
-};
 std::string word_eo_to_han(const std::string& eo_word, bool is_before_hyphen=false, bool is_sentence_begin=false) {
     std::string word = eo_word;
     // 如果单词为空，直接返回
@@ -415,7 +425,8 @@ oni oni
 partopreni 部o取i
 ĉiopovan ĉio可an
 ************fraza/paragrafa ekzemplo**********
-Ĉar aŭ almenaŭ 因 aŭ almenaŭ
+Ĉar aŭ almenaŭ 因 或 至少
 Ĉharaqueter spezielle Ĉharaqueter spezielle
 drako-reĝo 龍o-王o
+Hanzi test-text saved to 'testa-rezulto.cpp.txt'
 */
